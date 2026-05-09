@@ -45,11 +45,12 @@ pipeline {
                 sh 'docker push JAGO-DEV-2026/devops-web-project:v1'
             }
         }
-    }
 
-    post {
-        always {
-            sh 'docker logout'
+        stage('Docker Logout') {
+            steps {
+                echo 'Logging out from Docker Hub...'
+                sh 'docker logout || true'
+            }
         }
     }
 }
