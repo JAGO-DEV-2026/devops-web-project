@@ -21,7 +21,7 @@ pipeline {
         stage('Build image') {
             steps {
                 echo 'Building Docker image...'
-                sh 'docker build -t JAGO-DEV-2026/devops-web-project:v1 --label devops-web-project-server .'
+                sh 'docker build -t jago13/devops-web-project:v1 --label devops-web-project-server .'
             }
         }
 
@@ -45,7 +45,7 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 echo 'Pushing image to Docker Hub...'
-                sh 'docker push docker.io/JAGO-DEV-2026/devops-web-project:v1'
+                sh 'docker push docker.io/jago13/devops-web-project:v1'
             }
         }
 
