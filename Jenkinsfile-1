@@ -45,7 +45,7 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 echo 'Pushing image to Docker Hub...'
-                sh 'docker push JAGO-DEV-2026/devops-web-project:v1'
+                sh 'docker push docker.io/JAGO-DEV-2026/devops-web-project:v1'
             }
         }
 
