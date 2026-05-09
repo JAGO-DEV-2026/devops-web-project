@@ -9,10 +9,6 @@ pipeline {
         maven 'maven-3.9.6'
     }
 
-    environment {
-        DOCKERHUB_CREDENTIALS = credentials('devops-dockerhub-token')
-    }
-
     stages {
 
         stage('Packaging') {
@@ -31,11 +27,18 @@ pipeline {
 
         stage('Docker Hub Login') {
             steps {
-                echo 'Logging into Docker Hub...'
-                sh '''
-                echo $DOCKERHUB_CREDENTIALS_PSW | \
-                docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
-                '''
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: 'devops-dockerhub-token',
+                        usernameVariable: 'DOCKER_USER',
+                        passwordVariable: 'DOCKER_PASSWORD'
+                    )
+                ]) {
+                    sh '''
+                    echo "$DOCKER_PASSWORD" | \
+                    docker login -u "$DOCKER_USER" --password-stdin
+                    '''
+                }
             }
         }
 
@@ -48,7 +51,6 @@ pipeline {
 
         stage('Docker Logout') {
             steps {
-                echo 'Logging out from Docker Hub...'
                 sh 'docker logout || true'
             }
         }
